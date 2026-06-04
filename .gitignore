@@ -13,6 +13,11 @@ env/
 # Project artifacts
 .embed_cache/
 
+# Data files & generated caches (keep data/README.md)
+data/*.xlsx
+data/*.csv
+*.npy
+
 # Editors / OS
 .vscode/
 .idea/
