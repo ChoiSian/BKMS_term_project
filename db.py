@@ -50,7 +50,6 @@ class DB:
 
     @contextmanager
     def _cursor(self, commit=False, dict_rows=False):
-        """Yield a cursor; commit on success, rollback on error (keeps conn usable)."""
         cur = self.conn.cursor(
             cursor_factory=RealDictCursor if dict_rows else None)
         try:
@@ -64,7 +63,6 @@ class DB:
             cur.close()
 
     def init_db(self, reset=False):
-        """Create the schema. reset=True drops the tables first (clean rebuild)."""
         with self._cursor(commit=True) as cur:
             if reset:
                 for table in self.TABLES:
@@ -107,7 +105,6 @@ class DB:
 
 
 def get_db(reset=False, init=True, **overrides):
-    """Connect using DB_CONFIG (overridable) and initialize the schema."""
     return DB(init=init, reset=reset, **{**DB_CONFIG, **overrides})
 
 
