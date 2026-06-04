@@ -1,13 +1,5 @@
 """
 advisor.py — NL2SQL pipeline: meal plan → nutrient totals → personalized advice.
-
-map_sql_query(db, matcher, input_dict):
-    1. LLM writes SQL to fetch this user's recommended intake from 영양소조건.
-    2. Each food (canonicalized via FoodMatcher) → LLM writes SQL to read its
-       nutrients from 영양성분DB; the day's totals are summed.
-    3. LLM writes advice comparing recommended vs. planned intake.
-
-LLM-generated SQL is passed through _clean_sql() to strip stray markdown fences.
 """
 
 from llm import call_llm
