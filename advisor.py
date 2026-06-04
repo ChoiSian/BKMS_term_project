@@ -9,7 +9,6 @@ NUTRIENTS = ["에너지", "단백질", "지방", "탄수화물", "나트륨"]
 
 
 def _clean_sql(text: str) -> str:
-    """Strip ```sql ... ``` fences the LLM sometimes adds despite instructions."""
     t = text.strip()
     if t.startswith("```"):
         t = t.split("\n", 1)[-1] if "\n" in t else t.strip("`")
@@ -22,7 +21,6 @@ def map_sql_query(db, matcher, input_dict):
     sex = "남성" if input_dict["성별"] == "M" else "여성"
     food_list = make_food_list(matcher, input_dict["음식 메뉴"])
 
-    # 1) recommended intake for this user (sex + age band)
     request = (
         "성별, 연령대_하한, 연령대_상한, 에너지, 단백질, 지방, 탄수화물, 나트륨을 열로 가지는 "
         "영양소조건이라는 이름의 DB에서 다음을 찾는 SQL 쿼리를 만들어주세요.\n"
@@ -32,7 +30,6 @@ def map_sql_query(db, matcher, input_dict):
     )
     constraint = db.query_one(_clean_sql(call_llm(request)))
 
-    # 2) planned intake = sum of each food's nutrients
     totals = {n: 0.0 for n in NUTRIENTS}
     for food in food_list:
         request = (
@@ -46,7 +43,6 @@ def map_sql_query(db, matcher, input_dict):
             for n in NUTRIENTS:
                 totals[n] += row[n] or 0.0
 
-    # 3) personalized advice
     request = (
         "하루에 섭취해야 하는 영양소와 실제 섭취할 영양소가 항목 별로 다음과 같을 때 "
         "사용자를 위한 적절한 조언을 구체적인 수치를 언급하면서 해주세요.\n"
