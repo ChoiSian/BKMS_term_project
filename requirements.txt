@@ -1,18 +1,11 @@
-# BKMS term project — Python dependencies
-# 설치:  pip install -r requirements.txt
-
-# PostgreSQL 연결 (db.py, load_data.py)
 psycopg2-binary>=2.9
 
-# 데이터 처리 + Excel 읽기
 numpy>=1.24
 pandas>=1.5
 openpyxl>=3.1
 tqdm>=4.65
 
-# LLM — OpenAI (llm.py: NL 파싱 / NL2SQL / 조언 생성)
 openai>=1.0
 
-# 임베딩 — 로컬 모델 (food_matcher.py: multilingual-e5-large, GPU 권장)
 sentence-transformers>=2.2
 torch>=2.0
