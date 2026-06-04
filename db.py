@@ -44,7 +44,9 @@ class DB:
             단백질      FLOAT,
             지방        FLOAT,
             탄수화물    FLOAT,
-            나트륨      FLOAT
+            나트륨      FLOAT,
+            -- (성별, 연령대) 조합당 1행이어야 한다 → 중복 INSERT 방지
+            PRIMARY KEY (성별, 연령대_하한, 연령대_상한)
         )""",
     ]
     TABLES = ["영양성분DB", "영양소조건"]
