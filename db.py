@@ -1,20 +1,5 @@
 """
 db.py — PostgreSQL connection wrapper and project schema.
-
-DB wraps a psycopg2 connection:
-    - query / query_one  → SELECT, returns dict rows (RealDictCursor)
-    - execute / executemany → INSERT/UPDATE/DELETE, auto-commit
-    - a failed statement auto-rolls-back so the connection stays usable
-    - __init__ creates the project schema (영양성분DB, 영양소조건)
-
-Connection settings come from DB_CONFIG (env vars with sensible defaults):
-
-    export DB_HOST=localhost DB_NAME=textbook DB_USER=postgres DB_PASSWORD=dbclass
-
-Usage:
-    from db import get_db
-    db = get_db(reset=True)            # connect + (re)create schema
-    db.query_one("SELECT * FROM 영양성분db WHERE 식품명 = %s", ("김밥",))
 """
 
 import os
