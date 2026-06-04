@@ -1,15 +1,5 @@
 """
 parse_input.py — Turn a free-form Korean self-description into a typed record.
-
-Pipeline:
-    parse_input(text)   ── LLM ──▶  "나이 : 20, 성별 : F, 음식 메뉴 : ['와플', ...]"
-    parse_record(line)  ── parse ─▶ {"나이": 20, "성별": "F", "음식 메뉴": [...]}
-
-Example:
-    >>> rec = parse_record(parse_input(
-    ...     "나는 20살 여성이야. 아침엔 와플, 저녁엔 삼겹살 구이를 먹을 계획이야."))
-    >>> rec["나이"], rec["성별"], rec["음식 메뉴"]
-    (20, 'F', ['와플', '삼겹살 구이'])
 """
 
 import ast
@@ -18,7 +8,6 @@ from llm import call_llm
 
 
 def parse_input(prompt: str) -> str:
-    """Ask the LLM to extract 나이 / 성별 / 음식 메뉴 as a single 'key : value' line."""
     request = (
         "다음을 읽고 나이, 성별, 음식 메뉴를 parse해주세요.\n"
         "나이는 정수형, 성별은 M/F의 문자열, 음식 메뉴는 문자열의 리스트로 반환해주세요.\n"
@@ -33,7 +22,6 @@ TRUE_VALUES = {"T", "TRUE", "1", "Y", "YES", "참"}
 
 
 def _split_top_level(text, sep=","):
-    """Split on `sep` only outside of brackets, so list values stay intact."""
     parts, depth, buf = [], 0, []
     for ch in text:
         if ch in "[{(":
@@ -61,7 +49,6 @@ def _convert(value, field_type):
 
 
 def parse_record(text, field_types=FIELD_TYPES):
-    """Parse a 'key : value, key : value' line into a typed dict."""
     record = {}
     for pair in _split_top_level(text, ","):
         if ":" not in pair:
