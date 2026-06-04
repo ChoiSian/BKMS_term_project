@@ -1,0 +1,16 @@
+# BKMS term project — Python dependencies
+# 설치:  pip install -r requirements.txt
+
+# PostgreSQL 연결 (db.py, setup_db.py)
+psycopg2-binary>=2.9
+
+# 데이터 처리 (영양소조건 적재 등)
+numpy>=1.24
+pandas>=1.5
+
+# 임베딩 — OpenAI API 백엔드 (food_matcher.py)
+openai>=1.0
+
+# 임베딩 — 로컬 모델 백엔드 (multilingual-e5 / BGE 등, GPU 권장)
+sentence-transformers>=2.2
+torch>=2.0
